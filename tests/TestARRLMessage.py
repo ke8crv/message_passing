@@ -6,7 +6,7 @@ from ARRLMessage import function1
 
 import unittest
 
-class TestMyClass(unittest.TestCase):
+class TestARRLMessage(unittest.TestCase):
 
     def setUp(self):
         pass
