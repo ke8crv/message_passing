@@ -1,7 +1,7 @@
 import tweepy, re, time
 from nltk.tokenize import word_tokenize
 from nltk.corpus import words
-import credentials
+from credentials import *
 
 cant_find = []
 
@@ -87,7 +87,21 @@ def getTweetsFromFile(filename):
 
 	return
 
-def getTweets():
+def getTweetsFromWeb():
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
+
+	api = tweepy.API(auth)
+
+	public_tweets = api.home_timeline()
+
+	with open(filename, 'w') as f:
+		
+		for tweet in public_tweets:
+    			readTweet(tweet.text.encode('utf8'))
+
+
+def saveTweets(filename):
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
@@ -96,12 +110,10 @@ def getTweets():
 
 	public_tweets = api.home_timeline()
 
-	with open("tweets.txt", 'w') as f:
+	with open(filename, 'w') as f:
 		
 		for tweet in public_tweets:
-    			readTweet(tweet.text.encode('utf8'))
-			#print(tweet.text.encode('utf8'))
-			#f.write(tweet.text.encode('utf8') + "\n")
+			f.write(tweet.text.encode('utf8') + "\n")
 
 
 def readTweet(tweet):
@@ -153,7 +165,8 @@ def readTweet(tweet):
 	
 def main():
 
-	getTweetsFromFile("tweets.txt")
+	saveTweets("tweets.txt")
+	#getTweetsFromFile("tweets.txt")
 	#getTweets()
 	print(cant_find)
 
