@@ -47,7 +47,23 @@ lookup = {
 	"7":"seven",
 	"8":"eight",
 	"9":"nine",
-	"0":"zero"
+	"0":"zero",
+	".":"dot",
+	"/":"slash",
+	"-":"dash",
+	"!":"exclamation",
+	",":"comma",
+	"?":"question",
+	"\\":"backslash",
+	":":"colon",
+	";":"semicolon",
+	"~":"tilde",
+	"#":"pound sign",
+	"_":"underscore",
+	"@":"at sign",
+	"'":"apostrophe",
+	"(":"left parenthesis",
+	")":"right parenthesis"
 	}
 
 
@@ -192,11 +208,37 @@ def is_number(token):
 	else:
 		return False
 
+def is_zip(token):
+
+	pattern = re.compile("^[0-9]{5}(-[0-9]{4,5})?$")
+
+	if pattern.match(str(token)):
+		return True
+	else:
+		return False
+
+def is_phone(token):
+
+	pattern = re.compile("^[0-9]{3} [0-9]{3} [0-9]{4}$")
+
+	if pattern.match(str(token)):
+		return True
+	else:
+		return False
 
 		
 def readTweet(tweet):
 
+	new_message = ""
+	#test_message = ""
+	
 	tokens = preprocess(tweet)
+	#print(tokens)
+	#for token in tokens:
+	#	test_message += token
+	#	test_message += " "
+
+	#print(test_message)
 
 	#test for homophone, if yes say "I spell"
 		#ie Two/2, bee/be/b
@@ -219,50 +261,68 @@ def readTweet(tweet):
 	#test if mixed group, say "mixed group"
 		#ie ke8crv
 
-	
+	#do a search and replace for "." 
+		#R if a decimal
+		#X if a period 
+		#DOT if within a mixed group
 
-	print("Reading new tweet")
+	#print("Reading new tweet")
 	for token in tokens:
 
 		if is_word(token) and not is_homophone(token, homophone_list):
 			
-			print(token)
-			time.sleep(1.5)
+			#print(token)
+			new_message += token + " " +"<break time='2000ms' />"
+			#time.sleep(1.5)
 
 		else:
 
 			if is_mixed_group(token):
-				print "Mixed group"
+				#print("Mixed group")
+				new_message += "Mixed group"
 
 			elif is_letter_group(token):
-				print "Letter group"			
+				#print("Letter group")			
+				new_message += "Letter group"
 
 			elif is_number(token):
-				print "Figure"
+				#print("Figure")
+				new_message += "Figure"
 
 			else:
-				print("I spell")
-			
+				#print("I spell")
+				new_message += "I spell"			
 			#test if number, letter group, or mixed group
+
+			#print(" ")
+			new_message += " " + "<break time='1000ms'/>"
 				
 			for letter in token:
 				if letter.lower() in lookup:
 					word = lookup[letter.lower()]
-					print(word)
+					#print(word)
+					new_message += word + " "
 				else:
 					cant_find.append(letter.lower())
-			print("space")
+			
+			#print(" ")
+			new_message += " " +"<break time='2000ms'/>"
 
 
 	#time.sleep(3)
-	print(tweet)	
+	#print("------------------")
+	#print(tweet)
+	#print("\n")
+	#print("------------------")
+	print(new_message)
+	
 def main():
 
 
 	#saveTweets("tweets.txt")
-	getTweetsFromFile("tweets.txt")
+	getTweetsFromFile("test.txt")
 	#getTweets()
-	print(cant_find)
+	#print(cant_find)
 
 if __name__ == "__main__":
 

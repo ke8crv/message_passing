@@ -10,8 +10,28 @@ Requirements
 * Python
 * Natural Language Toolkit (Nltk)
 * Download the NTLK corpus
+
+Speech Engines
 * Espeak
 
+	sudo apt-get install espeak
+
+* Festival
+
+	sudo apt-get install festival
+
+* Pico2wav (WINNER) [Documenation](https://github.com/DougGore/picopi/tree/master/pico_resources/docs)
+
+	sudo apt-get install libttspico-utils
+
+* Google Translate (needs mplayer)
+
+	sudo apt-get install mplayer
+
+	
+* Pocketsphinx
+
+	sudo apt-get install pocketsphinx
 
 Usage
 =====

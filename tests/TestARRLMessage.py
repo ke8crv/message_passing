@@ -40,6 +40,17 @@ class TestARRLMessage(unittest.TestCase):
 		self.assertFalse(is_letter_group("abc123"))
 		self.assertFalse(is_letter_group("123"))
 
+	def test_is_phone(self):
+		self.assertTrue(is_phone("555 555 5555"))
+		self.assertFalse(is_phone("5555 5555 55555"))
+		self.assertFalse(is_phone("55 5555 555"))
+
+	def test_is_zip(self):
+		self.assertTrue(is_zip("48910"))
+		self.assertTrue(is_zip("48920-2222"))
+		self.assertFalse(is_zip("489101"))
+		self.assertFalse(is_zip("48910-2222222"))
+
 if __name__ == '__main__':
     unittest.main()
 #suite = unittest.TestLoader().loadTestsFromTestCase(TestMyClass)
