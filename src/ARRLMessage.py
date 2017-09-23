@@ -37,7 +37,17 @@ lookup = {
 	"w":"whiskey",
 	"x":"xray",
 	"y":"yankee",
-	"z":"zulu"
+	"z":"zulu",
+	"1":"one",
+	"2":"two",
+	"3":"three",
+	"4":"four",
+	"5":"five",
+	"6":"six",
+	"7":"seven",
+	"8":"eight",
+	"9":"nine",
+	"0":"zero"
 	}
 
 
@@ -149,7 +159,8 @@ def is_word(token):
 
 def is_mixed_group(token):
 
-	pattern = re.compile('^[a-zA-Z0-9]+')
+	#pattern = re.compile('^[a-zA-Z0-9]+')
+	pattern = re.compile("^(?=.*[a-zA-Z])(?=.*[0-9])")
 
 	if pattern.match(token) and token not in words.words() :
 		return True
@@ -162,6 +173,25 @@ def is_homophone(token, homophone_list):
 		return True
 	else:
 		return False
+
+def is_letter_group(token):
+
+	pattern = re.compile("^[a-zA-Z]+$")
+
+	if pattern.match(str(token)):
+		return True
+	else:
+		return False
+
+def is_number(token):
+
+	pattern = re.compile("^[0-9]+$")
+
+	if pattern.match(str(token)):
+		return True
+	else:
+		return False
+
 
 		
 def readTweet(tweet):
@@ -197,8 +227,24 @@ def readTweet(tweet):
 		if is_word(token) and not is_homophone(token, homophone_list):
 			
 			print(token)
+			time.sleep(1.5)
+
 		else:
-			print("I spell")
+
+			if is_mixed_group(token):
+				print "Mixed group"
+
+			elif is_letter_group(token):
+				print "Letter group"			
+
+			elif is_number(token):
+				print "Figure"
+
+			else:
+				print("I spell")
+			
+			#test if number, letter group, or mixed group
+				
 			for letter in token:
 				if letter.lower() in lookup:
 					word = lookup[letter.lower()]
@@ -207,7 +253,6 @@ def readTweet(tweet):
 					cant_find.append(letter.lower())
 			print("space")
 
-		time.sleep(1)
 
 	#time.sleep(3)
 	print(tweet)	
