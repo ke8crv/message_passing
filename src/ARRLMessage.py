@@ -63,6 +63,9 @@ regex_str = [
     
 tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
 emoticon_re = re.compile(r'^'+emoticons_str+'$', re.VERBOSE | re.IGNORECASE)
+
+homophone_list = []
+
  
 def tokenize(s):
     return tokens_re.findall(s)
@@ -115,7 +118,52 @@ def saveTweets(filename):
 		for tweet in public_tweets:
 			f.write(tweet.text.encode('utf8') + "\n")
 
+def build_homophone_list():
 
+	with open("/home/jdoe93410/Projects/message_passing/src/homophones-1.01.txt", "r") as f:
+		rows = f.readlines()
+
+	counter = 0
+	start = 0
+	for row in rows:
+		if "----------------" in row:
+			start = counter+1
+		counter +=1
+
+
+	homophone_list = []	
+	for i in range(start, len(rows)):
+		for j in rows[i].strip().split(','):
+			homophone_list.append(j)
+
+	return homophone_list
+
+
+
+def is_word(token):
+
+	if token in words.words():
+		return True
+	else:
+		return False
+
+def is_mixed_group(token):
+
+	pattern = re.compile('^[a-zA-Z0-9]+')
+
+	if pattern.match(token) and token not in words.words() :
+		return True
+	else:
+		return False
+
+def is_homophone(token, homophone_list):
+
+	if token in homophone_list:
+		return True
+	else:
+		return False
+
+		
 def readTweet(tweet):
 
 	tokens = preprocess(tweet)
@@ -146,7 +194,7 @@ def readTweet(tweet):
 	print("Reading new tweet")
 	for token in tokens:
 
-		if token in words.words():
+		if is_word(token) and not is_homophone(token, homophone_list):
 			
 			print(token)
 		else:
@@ -162,11 +210,12 @@ def readTweet(tweet):
 		time.sleep(1)
 
 	#time.sleep(3)
-	
+	print(tweet)	
 def main():
 
-	saveTweets("tweets.txt")
-	#getTweetsFromFile("tweets.txt")
+
+	#saveTweets("tweets.txt")
+	getTweetsFromFile("tweets.txt")
 	#getTweets()
 	print(cant_find)
 
