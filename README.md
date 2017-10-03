@@ -31,7 +31,17 @@ Speech Engines
 	
 * Pocketsphinx
 
-	sudo apt-get install pocketsphinx
+	WRONG:sudo apt-get install pocketsphinx
+
+	Download tar files and manually install
+
+		Sphinxbase
+		Pocketsphinx
+
+	Prerequisites
+	sudo apt-get install bison
+	sudo apt-get install swig
+
 
 Usage
 =====

@@ -301,7 +301,7 @@ def readTweet(tweet):
 				if letter.lower() in lookup:
 					word = lookup[letter.lower()]
 					#print(word)
-					new_message += word + " "
+					new_message += word + " " + "<break time='800ms'/>"
 				else:
 					cant_find.append(letter.lower())
 			
